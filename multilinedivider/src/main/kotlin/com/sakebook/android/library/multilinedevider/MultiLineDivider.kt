@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import com.sakebook.android.library.multilinedevider.divider.Divider
+import com.sakebook.android.library.multilinedevider.divider.HorizontalDivider
 import com.sakebook.android.library.multilinedevider.divider.NoDivider
 import com.sakebook.android.library.multilinedevider.divider.VerticalDivider
 
@@ -39,11 +40,23 @@ class MultiLineDivider(val context: Context, val orientation: Int): RecyclerView
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+        val vh = parent.getChildViewHolder(view)
         when(orientation) {
-            VERTICAL -> {}
-            HORIZONTAL -> {}
+            VERTICAL -> {
+                when(vh) {
+                    is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is VerticalDivider -> outRect.set(0, 0, 0, vh.height)
+                    else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
+                }
+            }
+            HORIZONTAL -> {
+                when(vh) {
+                    is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is HorizontalDivider -> outRect.set(0, 0, vh.width, 0)
+                    else -> outRect.set(0, 0, defaultDivider.intrinsicWidth, 0)
+                }
+            }
         }
-        // TODO
     }
 
     @SuppressLint("NewApi")
@@ -87,8 +100,45 @@ class MultiLineDivider(val context: Context, val orientation: Int): RecyclerView
         }
     }
 
+    @SuppressLint("NewApi")
     private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
-        // TODO
+        val top: Int
+        val bottom: Int
+        if (parent.clipToPadding) {
+            top = parent.paddingTop
+            bottom = parent.height - parent.paddingBottom
+            canvas.clipRect(parent.paddingLeft, top,
+                    parent.width - parent.paddingRight, bottom)
+        } else {
+            top = 0
+            bottom = parent.height
+        }
+
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            parent.layoutManager.getDecoratedBoundsWithMargins(child, bounds)
+            val right = bounds.right + Math.round(ViewCompat.getTranslationX(child))
+
+            val vh = parent.getChildViewHolder(child)
+            when(vh) {
+                is NoDivider -> {}
+                is HorizontalDivider -> {
+                    val drawable = dividerMap[vh]?: // Reuse divider
+                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.let {
+                                dividerMap.put(vh, it)
+                            }
+                    val left = right - (vh.width + 1) // Line width < Bounds width
+                    drawable?.setBounds(left, top, right, bottom)
+                    drawable?.draw(canvas)
+                }
+                else -> {
+                    val left = right - defaultDivider.intrinsicWidth
+                    defaultDivider.setBounds(left, top, right, bottom)
+                    defaultDivider.draw(canvas)
+                }
+            }
+        }
     }
 
     companion object {

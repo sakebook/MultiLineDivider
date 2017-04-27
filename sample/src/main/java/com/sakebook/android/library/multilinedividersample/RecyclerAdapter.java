@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -15,10 +16,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private LayoutInflater inflater;
     private ArrayList<String> items;
+    private int orientation;
 
-    public RecyclerAdapter(Context context, ArrayList<String> arrayList) {
+    public RecyclerAdapter(Context context, ArrayList<String> arrayList, int orientation) {
         this.inflater = LayoutInflater.from(context);
         this.items = arrayList;
+        this.orientation = orientation;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Number number = Number.id(position);
+        switch (number) {
+            case EVEN:
+                break;
+            case ODD:
+                break;
+            case PRIME:
+                break;
+        }
+        return number.type();
     }
 
     @Override
@@ -28,7 +45,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        OddViewHolder holder = new OddViewHolder(inflater.inflate(R.layout.item_odd_vertical, parent, false));
+        ViewHolder<String> holder = null;
+        int layoutId;
+        Number number = Number.id(viewType);
+        switch (number) {
+            case EVEN:
+                layoutId = (orientation == LinearLayout.VERTICAL) ? R.layout.item_even_vertical: R.layout.item_even_horizontal;
+                holder = new EvenViewHolder(inflater.inflate(layoutId, parent, false));
+                break;
+            case ODD:
+                layoutId = (orientation == LinearLayout.VERTICAL) ? R.layout.item_odd_vertical: R.layout.item_odd_horizontal;
+                holder = new OddViewHolder(inflater.inflate(layoutId, parent, false));
+                break;
+            case PRIME:
+                layoutId = (orientation == LinearLayout.VERTICAL) ? R.layout.item_prime_vertical: R.layout.item_prime_horizontal;
+                holder = new PrimeViewHolder(inflater.inflate(layoutId, parent, false));
+                break;
+        }
         return holder;
     }
 
