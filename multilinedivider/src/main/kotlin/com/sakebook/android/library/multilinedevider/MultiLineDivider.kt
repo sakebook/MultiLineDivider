@@ -19,16 +19,25 @@ import com.sakebook.android.library.multilinedevider.divider.VerticalDivider
 /**
  * Created by sakemotoshinya on 2017/04/24.
  */
-class MultiLineDivider(val context: Context, val orientation: Int): RecyclerView.ItemDecoration() {
+class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): RecyclerView.ItemDecoration() {
 
-    private val defaultDivider: Drawable
+    private var drawable: Drawable? = null
+    private val defaultDivider: Drawable by lazy { createDivider(context, divider = drawable) }
     private val dividerMap: SimpleArrayMap<Divider, Drawable> = SimpleArrayMap()
     private val bounds = Rect()
 
-    init {
-        val a = context.obtainStyledAttributes(ATTRS)
-        defaultDivider = a.getDrawable(0)
-        a.recycle()
+    constructor(context: Context, orientation: Int = VERTICAL, divider: Drawable) : this(context, orientation) {
+        drawable = divider
+    }
+
+    private fun createDivider(context: Context, divider: Drawable?): Drawable {
+        return divider?.let {
+            it
+        }?: context.obtainStyledAttributes(ATTRS).run {
+            this.getDrawable(0).apply {
+                this@run.recycle()
+            }
+        }
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
