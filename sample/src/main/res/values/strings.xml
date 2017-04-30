@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">MultiLineDividerSample</string>
+    <string-array name="favorite_contact_names">
+        <item>Janet Perkins</item>
+        <item>Mary Johnson</item>
+        <item>Peter Carlsson</item>
+        <item>Trevor Hansen</item>
+    </string-array>
+
+    <string-array name="contact_names">
+        <item>Aaron Bennett</item>
+        <item>Abbey Christensen</item>
+        <item>Ali Connors</item>
+        <item>Alex Nelson</item>
+        <item>Anthony Stevens</item>
+    </string-array>
+
 </resources>

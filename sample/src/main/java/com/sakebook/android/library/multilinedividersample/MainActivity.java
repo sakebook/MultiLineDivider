@@ -33,5 +33,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button contactButton = (Button) findViewById(R.id.button_contact);
+        contactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ContactActivity.createIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 }
