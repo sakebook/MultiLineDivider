@@ -93,7 +93,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                 is NoDivider -> {}
                 is VerticalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
-                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.let {
+                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
                                 dividerMap.put(vh, it)
                             }
                     val top = bottom - (vh.height + 1) // Line height < Bounds height
@@ -134,7 +134,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                 is NoDivider -> {}
                 is HorizontalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
-                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.let {
+                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
                                 dividerMap.put(vh, it)
                             }
                     val left = right - (vh.width + 1) // Line width < Bounds width
