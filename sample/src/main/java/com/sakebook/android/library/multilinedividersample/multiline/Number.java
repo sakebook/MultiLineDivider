@@ -1,4 +1,4 @@
-package com.sakebook.android.library.multilinedividersample;
+package com.sakebook.android.library.multilinedividersample.multiline;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
  */
 
 public enum Number {
-    EVEN(1),
-    ODD(10),
+    EVEN(10),
+    ODD(1),
     PRIME(3),
     ;
 

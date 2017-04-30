@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
+              android:background="@color/orange"
               android:layout_width="wrap_content"
               android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/text"
+        android:layout_marginLeft="@dimen/medium_margin"
+        android:layout_marginRight="@dimen/medium_margin"
         android:gravity="center"
+        android:textSize="@dimen/text_only_list_primary_text_size"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 
 </LinearLayout>
+

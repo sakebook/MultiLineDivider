@@ -1,4 +1,4 @@
-package com.sakebook.android.library.multilinedividersample;
+package com.sakebook.android.library.multilinedividersample.multiline;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

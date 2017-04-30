@@ -1,10 +1,12 @@
-package com.sakebook.android.library.multilinedividersample;
+package com.sakebook.android.library.multilinedividersample.multiline;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.sakebook.android.library.multilinedividersample.R;
 
 import java.util.ArrayList;
 

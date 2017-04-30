@@ -1,22 +1,24 @@
-package com.sakebook.android.library.multilinedividersample;
+package com.sakebook.android.library.multilinedividersample.multiline;
 
 import android.view.View;
 import android.widget.TextView;
+
+import com.sakebook.android.library.multilinedividersample.R;
 
 /**
  * Created by sakemotoshinya on 2017/04/26.
  */
 
-public class EvenViewHolder extends ViewHolder<String> {
+public class PrimeViewHolder extends ViewHolder<String> {
 
     private TextView textView;
-    public EvenViewHolder(View itemView) {
+    public PrimeViewHolder(View itemView) {
         super(itemView);
         textView = (TextView) itemView.findViewById(R.id.text);
     }
 
     @Override
     void setData(String str) {
-        textView.setText("Even: " + str);
+        textView.setText("Prime: " + str);
     }
 }

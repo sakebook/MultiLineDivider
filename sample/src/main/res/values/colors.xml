@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="orange">#ff9800</color>
+    <color name="orange_dark">#c66900</color>
+    <color name="light_green">#8bc34a</color>
+    <color name="light_green_dark">#5a9216</color>
+
+    <color name="dark_text_primary_color">#DE000000</color><!-- 87% -->
+    <color name="dark_text_secondary_color">#8A000000</color><!-- 54% -->
+
 </resources>

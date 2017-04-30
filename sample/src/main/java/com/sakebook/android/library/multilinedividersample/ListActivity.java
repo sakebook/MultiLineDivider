@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
 import com.sakebook.android.library.multilinedevider.MultiLineDivider;
+import com.sakebook.android.library.multilinedividersample.multiline.RecyclerAdapter;
 
 import java.util.ArrayList;
 
