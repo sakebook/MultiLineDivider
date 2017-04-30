@@ -9,7 +9,7 @@ import java.util.List;
 
 public enum Number {
     EVEN(1),
-    ODD(2),
+    ODD(10),
     PRIME(3),
     ;
 
