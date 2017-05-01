@@ -98,6 +98,9 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                             }
                     val top = bottom - (vh.height + 1) // Line height < Bounds height
                     drawable?.setBounds(left, top, right, bottom)
+                    vh.offset?.let {
+                        drawable?.bounds?.offset(it.first, it.second)
+                    }
                     drawable?.draw(canvas)
                 }
                 else -> {
@@ -139,6 +142,9 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                             }
                     val left = right - (vh.width + 1) // Line width < Bounds width
                     drawable?.setBounds(left, top, right, bottom)
+                    vh.offset?.let {
+                        drawable?.bounds?.offset(it.first, it.second)
+                    }
                     drawable?.draw(canvas)
                 }
                 else -> {
@@ -153,8 +159,6 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
     companion object {
         val HORIZONTAL = LinearLayout.HORIZONTAL
         val VERTICAL = LinearLayout.VERTICAL
-
         private val ATTRS = intArrayOf(android.R.attr.listDivider)
     }
-
 }
