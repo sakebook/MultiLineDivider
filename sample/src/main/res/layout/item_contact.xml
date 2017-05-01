@@ -8,7 +8,6 @@
         android:id="@+id/image"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginRight="@dimen/list_item"
         android:layout_centerVertical="true"
         android:scaleType="centerInside"
         android:layout_width="@dimen/list_image"
@@ -16,7 +15,8 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_toRightOf="@+id/image"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/list_padding"
         android:layout_centerVertical="true"
         android:textSize="@dimen/text_only_list_primary_text_size"
         android:textStyle="bold"

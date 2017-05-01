@@ -1,5 +1,7 @@
 package com.sakebook.android.library.multilinedividersample.multiline;
 
+import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,5 +39,11 @@ public class OddViewHolder extends ViewHolder<String> implements VerticalDivider
     @Override
     public int getWidth() {
         return this.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.small_margin);
+    }
+
+    @Nullable
+    @Override
+    public Pair<Integer, Integer> getOffset() {
+        return null;
     }
 }
