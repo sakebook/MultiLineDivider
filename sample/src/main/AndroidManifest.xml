@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".ContactActivity">
         </activity>
+        <activity android:name=".TicketActivity">
+        </activity>
     </application>
 
 </manifest>

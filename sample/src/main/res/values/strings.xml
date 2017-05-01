@@ -15,4 +15,23 @@
         <item>Anthony Stevens</item>
     </string-array>
 
+    <string-array name="ticket_titles">
+        <item>Adele</item>
+        <item>Michael Jackson</item>
+        <item>Taylor Swift</item>
+        <item>Ariana Grande</item>
+        <item>Selena Gomez</item>
+        <item>Janet Jackson</item>
+    </string-array>
+
+    <string-array name="ticket_descriptions">
+        <item>Adele Laurie Blue Adkins MBE is an English singer-songwriter. After graduating from the BRIT School for Performing Arts and Technology in 2006, Adele was given a recording contract by XL Recordings after a friend posted her demo on Myspace the same year. In 2007, she received the Brit Awards "Critics\' Choice" award and won the BBC Sound of 2008 poll. Her debut album, 19, was released in 2008 to commercial and critical success. It is certified seven times platinum in the UK, and three times platinum in the US. An appearance she made on Saturday Night Live in late 2008 boosted her career in the US. At the 51st Grammy Awards in 2009, Adele received the awards for Best New Artist and Best Female Pop Vocal Performance.</item>
+        <item>Michael Joseph Jackson was an American singer, songwriter, record producer, dancer, actor, and philanthropist. Called the "King of Pop", his contributions to music, dance, and fashion along with his publicized personal life made him a global figure in popular culture for over four decades.</item>
+        <item>Taylor Alison Swift is an American singer-songwriter. One of the most popular contemporary female recording artists, she is known for narrative songs about her personal life, which has received much media attention.</item>
+        <item>Ariana Grande-Butera, known as Ariana Grande, is an American singer and actress. She began her career in the Broadway musical 13, before landing the role of Cat Valentine on the Nickelodeon television series Victorious in 2009. The show ended after four seasons, and Grande starred on the spinoff, Sam &amp; Cat, which ended in 2014. She has also appeared in other theatre, television and film roles, and has lent her voice to animated television and films.</item>
+        <item>Selena Marie Gomez is an American actress and singer. Having appeared as a child in the children\'s television series Barney &amp; Friends, Gomez rose to fame as the leading role in the Disney Channel series Wizards of Waverly Place (2007–12). Due to the success of the series, Gomez worked on various films, television shows, and musical collaborations for the network in the following years. Gomez also formed her own production company in 2008, titled July Moon Productions; she serves as an executive producer on the Netflix original series 13 Reasons Why, which released in March 2017. She signed a recording contract with Hollywood Records in 2008 and subsequently formed her band Selena Gomez &amp; the Scene the following year. The band released three studio albums and produced four top thirty hits by 2011.</item>
+        <item>Janet Damita Jo Jackson is an American singer, songwriter, dancer and actress. Known for sonically innovative, socially conscious, and sexually provocative records, elaborate stage shows, and high-profile television and film roles, she has been a prominent figure in popular culture for over 30 years.</item>
+    </string-array>
+
+
 </resources>
