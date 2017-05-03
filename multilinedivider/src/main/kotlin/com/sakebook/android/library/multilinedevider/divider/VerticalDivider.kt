@@ -8,5 +8,5 @@ import android.support.v4.util.Pair
 interface VerticalDivider: Divider {
     val height: Int
     val drawableRes: Int
-    val offset: Pair<Int, Int>?
+    val verticalInset: Pair<Int, Int>?
 }

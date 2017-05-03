@@ -97,11 +97,14 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                                 dividerMap.put(vh, it)
                             }
                     val top = bottom - (vh.height + 1) // Line height < Bounds height
-                    drawable?.setBounds(left, top, right, bottom)
-                    vh.offset?.let {
-                        drawable?.bounds?.offset(it.first, it.second)
+                    drawable?.let { d ->
+                        d.setBounds(left, top, right, bottom)
+                        vh.verticalInset?.let {
+                            d.bounds.left = d.bounds.left.plus(it.first)
+                            d.bounds.right = d.bounds.right.minus(it.second)
+                        }
+                        d.draw(canvas)
                     }
-                    drawable?.draw(canvas)
                 }
                 else -> {
                     val top = bottom - defaultDivider.intrinsicHeight
@@ -141,11 +144,14 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                                 dividerMap.put(vh, it)
                             }
                     val left = right - (vh.width + 1) // Line width < Bounds width
-                    drawable?.setBounds(left, top, right, bottom)
-                    vh.offset?.let {
-                        drawable?.bounds?.offset(it.first, it.second)
+                    drawable?.let { d ->
+                        d.setBounds(left, top, right, bottom)
+                        vh.horizontalInset?.let {
+                            d.bounds.top = d.bounds.top.plus(it.first)
+                            d.bounds.bottom = d.bounds.bottom.minus(it.second)
+                        }
+                        d.draw(canvas)
                     }
-                    drawable?.draw(canvas)
                 }
                 else -> {
                     val left = right - defaultDivider.intrinsicWidth

@@ -1,7 +1,6 @@
 package com.sakebook.android.library.multilinedividersample.inset;
 
 import android.content.res.Resources;
-import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +8,8 @@ import android.widget.TextView;
 
 import com.sakebook.android.library.multilinedevider.divider.VerticalDivider;
 import com.sakebook.android.library.multilinedividersample.R;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by sakemotoshinya on 2017/04/30.
@@ -44,7 +45,7 @@ public class LastViewHolder extends ViewHolder<Contact> implements VerticalDivid
 
     @Nullable
     @Override
-    public Pair<Integer, Integer> getOffset() {
+    public Pair<Integer, Integer> getVerticalInset() {
         int offset = (int) resources.getDimension(R.dimen.list_padding);
         return Pair.create(offset, 0);
     }

@@ -50,11 +50,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private TextView textTitle;
         private TextView textDescription;
+        private Resources resources;
 
         public TicketViewHolder(View itemView) {
             super(itemView);
             textTitle = (TextView) itemView.findViewById(R.id.text_title);
             textDescription = (TextView) itemView.findViewById(R.id.text_description);
+            resources = itemView.getContext().getResources();
         }
 
         void setData(Ticket ticket) {
@@ -64,7 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public int getHeight() {
-            return (int) itemView.getContext().getResources().getDimension(R.dimen.dash_height);
+            return (int) resources.getDimension(R.dimen.dash_height);
         }
 
         @Override
@@ -74,8 +76,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Nullable
         @Override
-        public Pair<Integer, Integer> getOffset() {
-            return null;
+        public Pair<Integer, Integer> getVerticalInset() {
+            int inset = (int) resources.getDimension(R.dimen.list_padding);
+            return Pair.create(inset, inset);
         }
     }
 }
