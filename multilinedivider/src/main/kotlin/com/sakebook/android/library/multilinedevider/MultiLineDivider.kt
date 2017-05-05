@@ -72,14 +72,17 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
     private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
         val left: Int
         val right: Int
-        if (parent.clipToPadding) {
-            left = parent.paddingLeft
-            right = parent.width - parent.paddingRight
-            canvas.clipRect(left, parent.paddingTop, right,
-                    parent.height - parent.paddingBottom)
-        } else {
-            left = 0
-            right = parent.width
+        when(parent.clipToPadding) {
+            true -> {
+                left = parent.paddingLeft
+                right = parent.width - parent.paddingRight
+                canvas.clipRect(left, parent.paddingTop, right,
+                        parent.height - parent.paddingBottom)
+            }
+            false -> {
+                left = 0
+                right = parent.width
+            }
         }
 
         val childCount = parent.childCount
@@ -119,14 +122,17 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
     private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
         val top: Int
         val bottom: Int
-        if (parent.clipToPadding) {
-            top = parent.paddingTop
-            bottom = parent.height - parent.paddingBottom
-            canvas.clipRect(parent.paddingLeft, top,
-                    parent.width - parent.paddingRight, bottom)
-        } else {
-            top = 0
-            bottom = parent.height
+        when(parent.clipToPadding) {
+            true -> {
+                top = parent.paddingTop
+                bottom = parent.height - parent.paddingBottom
+                canvas.clipRect(parent.paddingLeft, top,
+                        parent.width - parent.paddingRight, bottom)
+            }
+            false -> {
+                top = 0
+                bottom = parent.height
+            }
         }
 
         val childCount = parent.childCount

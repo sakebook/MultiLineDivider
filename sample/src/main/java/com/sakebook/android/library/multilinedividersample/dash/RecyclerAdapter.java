@@ -77,7 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Nullable
         @Override
         public Pair<Integer, Integer> getVerticalInset() {
-            int inset = (int) resources.getDimension(R.dimen.list_padding);
+            int inset = (int) resources.getDimension(R.dimen.list_item);
             return Pair.create(inset, inset);
         }
     }
