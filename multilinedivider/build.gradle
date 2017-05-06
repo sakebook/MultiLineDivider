@@ -41,17 +41,10 @@ repositories {
     mavenCentral()
 }
 
-archivesBaseName = "MultiLineDivider"
+group "com.github.sakebook"
+version "0.0.2"
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            group "com.github.sakebook"
-            artifactId "MultiLineDivider"
-            version "0.0.1"
-        }
-    }
-}
+archivesBaseName = "MultiLineDivider"
 
 bintray {
     user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
@@ -65,10 +58,6 @@ bintray {
         userOrg = user
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/sakebook/MultiLineDivider.git'
-        version {
-            name = '0.0.1'
-            desc = 'Multi divider in RecyclerView on Android.'
-            vcsTag = '0.0.1'
-        }
+        desc = 'Multi divider in RecyclerView on Android.'
     }
 }
