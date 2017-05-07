@@ -46,7 +46,7 @@ public class LastViewHolder extends ViewHolder<Contact> implements VerticalDivid
     @Nullable
     @Override
     public Pair<Integer, Integer> getVerticalInset() {
-        int offset = (int) resources.getDimension(R.dimen.list_padding);
-        return Pair.create(offset, 0);
+        int inset = (int) resources.getDimension(R.dimen.list_padding);
+        return Pair.create(inset, 0);
     }
 }
