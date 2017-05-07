@@ -2,6 +2,13 @@ MultiLineDivider
 ============
 Multi divider in RecyclerView on Android.
 
+|Vertical|Horizontal|
+|:---:|:---:|
+|![image](https://github.com/sakebook/MultiLineDivider/tree/master/art/vertical.png)|![image](https://github.com/sakebook/MultiLineDivider/tree/master/art/horizontal.png)|
+
+|Inset|Dash|
+|:---:|:---:|
+|![image](https://github.com/sakebook/MultiLineDivider/tree/master/art/inset.png)|![image](https://github.com/sakebook/MultiLineDivider/tree/master/art/dash.png)|
 
 ---
 
