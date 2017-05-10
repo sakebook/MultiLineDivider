@@ -4,13 +4,9 @@ Multi divider in RecyclerView on Android.
 
 [ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion)
 
-|Vertical|Horizontal|
-|:---:|:---:|
-|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/vertical.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/horizontal.png)|
-
-|Inset|Dash|
-|:---:|:---:|
-|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/inset.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/dash.png)|
+|Vertical|Horizontal|Inset|Dash|
+|:---:|:---:|:---:|:---:|
+|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/vertical.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/horizontal.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/inset.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/dash.png)|
 
 ---
 
@@ -116,6 +112,13 @@ public Pair<Integer, Integer> getVerticalInset() {
 
 ```
 
+## ProGuard
+
+If you are using ProGuard you might need to add the following option:
+
+```
+-keep class com.sakebook.android.library.multilinedevider.*{ *; }
+```
 
 Sample in project [demo](https://github.com/sakebook/MultiLineDivider/tree/master/sample)
 
