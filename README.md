@@ -2,6 +2,8 @@ MultiLineDivider
 ============
 Multi divider in RecyclerView on Android.
 
+[ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion)
+
 |Vertical|Horizontal|
 |:---:|:---:|
 |![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/vertical.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/horizontal.png)|
@@ -87,7 +89,7 @@ class YourViewHolder(view: View): RecyclerView.ViewHolder(view), VerticalDivider
 
 
 ## Custom
-- If you want to draw Horizontal divider
+### If you want to draw Horizontal divider
 
 ```java
 MultiLineDivider multiLineDivider = new MultiLineDivider(this, LinearLayout.HORIZONTAL);
@@ -96,11 +98,11 @@ MultiLineDivider multiLineDivider = new MultiLineDivider(this, LinearLayout.HORI
 and implements `HorizontalDivider`
 
 
-- If you don't want to draw divider
+### If you don't want to draw divider
 
 Implements `NoDivider`
 
-- If you want to inset in divider
+### If you want to inset in divider
 
 ```
 @Nullable
