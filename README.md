@@ -2,7 +2,7 @@ MultiLineDivider
 ============
 Multi divider in RecyclerView on Android.
 
-[ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MultiLineDivider-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5735)
 
 |Vertical|Horizontal|Inset|Dash|
 |:---:|:---:|:---:|:---:|
@@ -120,7 +120,7 @@ If you are using ProGuard you might need to add the following option:
 -keep class com.sakebook.android.library.multilinedevider.*{ *; }
 ```
 
-Sample in project [demo](https://github.com/sakebook/MultiLineDivider/tree/master/sample)
+Sample in project [sample/](https://github.com/sakebook/MultiLineDivider/tree/master/sample)
 
 ## LICENSE
 ```
