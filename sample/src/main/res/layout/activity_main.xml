@@ -13,14 +13,38 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button_vertical"
-            android:text="vertical"
+            android:id="@+id/button_linear_vertical"
+            android:text="vertical(linear)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/button_horizontal"
-            android:text="horizontal"
+            android:id="@+id/button_linear_horizontal"
+            android:text="horizontal(linear)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_grid_vertical"
+            android:text="vertical(grid)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_grid_horizontal"
+            android:text="horizontal(grid)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_staggered_vertical"
+            android:text="vertical(staggered)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_staggered_horizontal"
+            android:text="horizontal(staggered)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
