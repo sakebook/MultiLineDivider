@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         verticalLinearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.LINEAR, LinearLayout.VERTICAL);
+                Intent intent = ListActivity.createIntent(MainActivity.this, LinearLayout.VERTICAL);
                 startActivity(intent);
             }
         });
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         horizontalLinearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.LINEAR, LinearLayout.HORIZONTAL);
+                Intent intent = ListActivity.createIntent(MainActivity.this, LinearLayout.HORIZONTAL);
                 startActivity(intent);
             }
         });
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         verticalGridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.GRID, LinearLayout.VERTICAL);
+                Intent intent = GridActivity.createIntent(MainActivity.this, LayoutType.GRID, LinearLayout.VERTICAL);
                 startActivity(intent);
             }
         });
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         horizontalGridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.GRID, LinearLayout.HORIZONTAL);
+                Intent intent = GridActivity.createIntent(MainActivity.this, LayoutType.GRID, LinearLayout.HORIZONTAL);
                 startActivity(intent);
             }
         });
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         verticalStaggeredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.STAGGERED, LinearLayout.VERTICAL);
+                Intent intent = GridActivity.createIntent(MainActivity.this, LayoutType.STAGGERED, LinearLayout.VERTICAL);
                 startActivity(intent);
             }
         });
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         horizontalStaggeredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ListActivity.createIntent(MainActivity.this, LayoutType.STAGGERED, LinearLayout.HORIZONTAL);
+                Intent intent = GridActivity.createIntent(MainActivity.this, LayoutType.STAGGERED, LinearLayout.HORIZONTAL);
                 startActivity(intent);
             }
         });
