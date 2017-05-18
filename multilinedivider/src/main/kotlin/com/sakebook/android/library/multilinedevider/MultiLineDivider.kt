@@ -3,18 +3,17 @@ package com.sakebook.android.library.multilinedevider
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.util.SimpleArrayMap
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
-import com.sakebook.android.library.multilinedevider.divider.Divider
-import com.sakebook.android.library.multilinedevider.divider.HorizontalDivider
-import com.sakebook.android.library.multilinedevider.divider.NoDivider
-import com.sakebook.android.library.multilinedevider.divider.VerticalDivider
+import com.sakebook.android.library.multilinedevider.divider.*
 
 /**
  * Created by sakemotoshinya on 2017/04/24.
@@ -25,6 +24,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
     private val defaultDivider: Drawable by lazy { createDivider(context, divider = drawable) }
     private val dividerMap: SimpleArrayMap<Divider, Drawable> = SimpleArrayMap()
     private val bounds = Rect()
+    private val paint = Paint()
 
     constructor(context: Context, orientation: Int = VERTICAL, divider: Drawable) : this(context, orientation) {
         drawable = divider
@@ -54,6 +54,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             VERTICAL -> {
                 when(vh) {
                     is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is GridDivider -> outRect.set(vh.padding, vh.padding, vh.padding, vh.padding)
                     is VerticalDivider -> outRect.set(0, 0, 0, vh.height)
                     else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
                 }
@@ -61,6 +62,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             HORIZONTAL -> {
                 when(vh) {
                     is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is GridDivider -> outRect.set(vh.padding, vh.padding, vh.padding, vh.padding)
                     is HorizontalDivider -> outRect.set(0, 0, vh.width, 0)
                     else -> outRect.set(0, 0, defaultDivider.intrinsicWidth, 0)
                 }
@@ -94,6 +96,10 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             val vh = parent.getChildViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
+                is GridDivider -> {
+                    paint.color = ContextCompat.getColor(context, vh.color)
+                    canvas.drawRect(bounds, paint)
+                }
                 is VerticalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
@@ -144,6 +150,10 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             val vh = parent.getChildViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
+                is GridDivider -> {
+                    paint.color = ContextCompat.getColor(context, vh.color)
+                    canvas.drawRect(bounds, paint)
+                }
                 is HorizontalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
