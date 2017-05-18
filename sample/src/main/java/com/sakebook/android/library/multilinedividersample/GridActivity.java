@@ -48,7 +48,7 @@ public class GridActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         MultiLineDivider multiLineDivider = new MultiLineDivider(this, orientation);
         recyclerView.addItemDecoration(multiLineDivider);
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this, createData(), orientation);
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this, createData(), layoutType, orientation);
         recyclerView.setAdapter(recyclerAdapter);
     }
 

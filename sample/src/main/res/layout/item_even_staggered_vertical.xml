@@ -5,6 +5,7 @@
               android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/image"
         android:src="@drawable/cat2"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
