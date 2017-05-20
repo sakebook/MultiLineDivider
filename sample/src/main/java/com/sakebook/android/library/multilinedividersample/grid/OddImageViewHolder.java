@@ -30,13 +30,8 @@ public class OddImageViewHolder extends ViewHolder<String> implements GridDivide
     }
 
     @Override
-    public int getColor() {
-        return R.color.colorAccent;
-    }
-
-    @Override
     public boolean getFullBleed() {
-        return false;
+        return true;
     }
 
 }

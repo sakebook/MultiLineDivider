@@ -57,9 +57,9 @@ public class GridActivity extends AppCompatActivity {
             case LINEAR:
                 return new LinearLayoutManager(this, orientation, false);
             case GRID:
-                return new GridLayoutManager(this, 2, orientation, false);
+                return new GridLayoutManager(this, 3, orientation, false);
             case STAGGERED:
-                return new StaggeredGridLayoutManager(2, orientation);
+                return new StaggeredGridLayoutManager(3, orientation);
         }
         throw new InternalError();
     }

@@ -29,13 +29,8 @@ public class EvenImageViewHolder extends ViewHolder<String> implements GridDivid
     }
 
     @Override
-    public int getColor() {
-        return R.color.light_green;
-    }
-
-    @Override
     public boolean getFullBleed() {
-        return false;
+        return true;
     }
 
 }

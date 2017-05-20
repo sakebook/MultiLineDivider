@@ -5,6 +5,5 @@ package com.sakebook.android.library.multilinedevider.divider
  */
 interface GridDivider: Divider {
     val padding: Int
-    val color: Int
     val fullBleed: Boolean
 }

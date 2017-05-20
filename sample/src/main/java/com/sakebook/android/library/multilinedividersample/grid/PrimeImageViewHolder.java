@@ -29,12 +29,7 @@ public class PrimeImageViewHolder extends ViewHolder<String> implements GridDivi
     }
 
     @Override
-    public int getColor() {
-        return R.color.colorPrimaryDark;
-    }
-
-    @Override
     public boolean getFullBleed() {
-        return false;
+        return true;
     }
 }
