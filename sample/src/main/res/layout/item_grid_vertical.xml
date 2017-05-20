@@ -8,6 +8,6 @@
         android:id="@+id/image"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_vertical_medium_width"/>
+        android:layout_height="@dimen/image_vertical_height"/>
 
 </LinearLayout>

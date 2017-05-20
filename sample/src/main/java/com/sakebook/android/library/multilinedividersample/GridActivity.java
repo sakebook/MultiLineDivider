@@ -2,17 +2,15 @@ package com.sakebook.android.library.multilinedividersample;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.LinearLayout;
 
 import com.sakebook.android.library.multilinedevider.MultiLineDivider;
 import com.sakebook.android.library.multilinedividersample.grid.RecyclerAdapter;
-import com.sakebook.android.library.multilinedividersample.multiline.LayoutType;
 
 import java.util.ArrayList;
 
@@ -23,12 +21,12 @@ import java.util.ArrayList;
 public class GridActivity extends AppCompatActivity {
 
     private final static String ORIENTATION = "orientation";
-    private final static String LAYOUT_TYPE = "layout_type";
+    private final static String FULL_BLEED = "full_bleed";
 
-    public static Intent createIntent(Context context, LayoutType layoutType, int orientation) {
+    public static Intent createIntent(Context context, boolean isFullBleed, int orientation) {
         Intent intent = new Intent(context, GridActivity.class);
         intent.putExtra(ORIENTATION, orientation);
-        intent.putExtra(LAYOUT_TYPE, layoutType);
+        intent.putExtra(FULL_BLEED, isFullBleed);
         return intent;
     }
 
@@ -41,27 +39,21 @@ public class GridActivity extends AppCompatActivity {
 
     private void initList() {
         int orientation = (getIntent() != null) ? getIntent().getIntExtra(ORIENTATION, LinearLayout.VERTICAL) : LinearLayout.VERTICAL;
-        LayoutType layoutType = (getIntent() != null) ? (LayoutType) getIntent().getSerializableExtra(LAYOUT_TYPE) : LayoutType.LINEAR;
+        boolean isFullBleed = (getIntent() != null) && getIntent().getBooleanExtra(FULL_BLEED, false);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        RecyclerView.LayoutManager layoutManager = createLayoutManager(layoutType, orientation);
+        int spanCount = 2;
+        if (orientation == LinearLayout.HORIZONTAL) {
+            spanCount = 3;
+        }
+        if (isFullBleed) {
+            recyclerView.setBackgroundColor(Color.BLACK);
+        }
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, spanCount, orientation, false);
         recyclerView.setLayoutManager(layoutManager);
         MultiLineDivider multiLineDivider = new MultiLineDivider(this, orientation);
         recyclerView.addItemDecoration(multiLineDivider);
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this, createData(), layoutType, orientation);
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this, createData(), isFullBleed, orientation);
         recyclerView.setAdapter(recyclerAdapter);
-    }
-
-    private RecyclerView.LayoutManager createLayoutManager(LayoutType layoutType, int orientation) {
-        switch (layoutType) {
-            case LINEAR:
-                return new LinearLayoutManager(this, orientation, false);
-            case GRID:
-                return new GridLayoutManager(this, 3, orientation, false);
-            case STAGGERED:
-                return new StaggeredGridLayoutManager(3, orientation);
-        }
-        throw new InternalError();
     }
 
     private ArrayList<Integer> createData() {

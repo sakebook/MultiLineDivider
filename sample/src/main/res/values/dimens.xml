@@ -9,13 +9,10 @@
     <dimen name="list_image">24dp</dimen>
     <dimen name="dash_height">4dp</dimen>
 
-    <dimen name="image_vertical_small_width">48dp</dimen>
-    <dimen name="image_vertical_medium_width">96dp</dimen>
-    <dimen name="image_vertical_large_width">144dp</dimen>
+    <dimen name="grid_padding">4dp</dimen>
 
-    <dimen name="image_horizontal_small_width">96dp</dimen>
-    <dimen name="image_horizontal_medium_width">192dp</dimen>
-    <dimen name="image_horizontal_large_width">288dp</dimen>
+    <dimen name="image_vertical_height">144dp</dimen>
+    <dimen name="image_horizontal_width">192dp</dimen>
 
 
     <dimen name="text_only_list_primary_text_size">16sp</dimen>

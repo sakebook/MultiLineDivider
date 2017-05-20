@@ -37,18 +37,6 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/button_staggered_vertical"
-            android:text="vertical(staggered)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/button_staggered_horizontal"
-            android:text="horizontal(staggered)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
             android:id="@+id/button_contact"
             android:text="inset"
             android:layout_width="match_parent"
