@@ -110,6 +110,19 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                             }
                         }
                     }
+                    is PositionDivider -> {
+                        if (vh.inverted) {
+                            when(vh.positions.none { it == vh.adapterPosition }) {
+                                true -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
+                                false -> outRect.set(0, 0, 0, 0)
+                            }
+                        } else {
+                            when(vh.positions.none { it == vh.adapterPosition }) {
+                                true -> outRect.set(0, 0, 0, 0)
+                                false -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
+                            }
+                        }
+                    }
                     else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
                 }
             }
@@ -213,6 +226,22 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                         }
                         d.draw(canvas)
                     }
+                }
+                is PositionDivider -> {
+                    if (vh.inverted) {
+                        when(vh.positions.none { it == vh.adapterPosition }) {
+                            true -> {}
+                            false -> continue@loop
+                        }
+                    } else {
+                        when(vh.positions.none { it == vh.adapterPosition }) {
+                            true -> continue@loop
+                            false -> {}
+                        }
+                    }
+                    val top = bottom - defaultDivider.intrinsicHeight
+                    defaultDivider.setBounds(left, top, right, bottom)
+                    defaultDivider.draw(canvas)
                 }
                 else -> {
                     val top = bottom - defaultDivider.intrinsicHeight
