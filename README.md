@@ -4,9 +4,17 @@ Multi divider in RecyclerView on Android.
 
 [ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MultiLineDivider-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5735)
 
-|Vertical|Horizontal|Inset|Dash|
-|:---:|:---:|:---:|:---:|
-|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/vertical.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/horizontal.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/inset.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/dash.png)|
+|Vertical|Horizontal|
+|:---:|:---:|
+|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/vertical.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/horizontal.png)|
+
+|Inset|Dash|
+|:---:|:---:|
+|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/inset.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/dash.png)|
+
+|Grid|FullBleed|
+|:---:|:---:|
+|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/grid.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/full_bleed.png)|
 
 ---
 
@@ -20,7 +28,7 @@ Multi divider in RecyclerView on Android.
 Add dependencies
 
 ```gradle
-compile 'com.github.sakebook:MultiLineDivider:0.2.0@aar'
+compile 'com.github.sakebook:MultiLineDivider:0.1.0@aar'
 
 // Use from Java
 compile "org.jetbrains.kotlin:kotlin-stdlib:kotlin_version"
@@ -110,6 +118,38 @@ public Pair<Integer, Integer> getVerticalInset() {
     return Pair.create(insetLeft, insetRight);
 }
 
+```
+
+### If you want to padding in grid
+
+- Java
+
+```java
+public class YourViewHolder extends RecyclerView.ViewHolder implements GridDivider {
+
+    public YourViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    public int getPadding() {
+        return itemView.getContext().getResources().getDimensionPixelSize(R.dimen.tiny_margin);
+    }
+
+    @Override
+    public boolean getFullBleed() {
+        return false;
+    }
+}
+```
+
+- Kotlin
+
+```kotlin
+class YourViewHolder(view: View): RecyclerView.ViewHolder(view), GridDivider {
+    override val padding = view.context.resources.getDimensionPixelSize(R.dimen.grid_padding)
+    override val fullBleed = true
+}
 ```
 
 ## ProGuard
