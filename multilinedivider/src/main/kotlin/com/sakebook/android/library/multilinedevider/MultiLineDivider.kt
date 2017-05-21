@@ -89,7 +89,27 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                             }
                         }
                     }
-                    is VerticalDivider -> outRect.set(0, 0, 0, vh.height)
+                    is VerticalDivider -> {
+                        when(vh is PositionDivider){
+                            true -> {
+                                vh as PositionDivider
+                                if (vh.inverted) {
+                                    when(vh.positions.none { it == vh.adapterPosition }) {
+                                        true -> outRect.set(0, 0, 0, vh.height)
+                                        false -> outRect.set(0, 0, 0, 0)
+                                    }
+                                } else {
+                                    when(vh.positions.none { it == vh.adapterPosition }) {
+                                        true -> outRect.set(0, 0, 0, 0)
+                                        false -> outRect.set(0, 0, 0, vh.height)
+                                    }
+                                }
+                            }
+                            false -> {
+                                outRect.set(0, 0, 0, vh.height)
+                            }
+                        }
+                    }
                     else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
                 }
             }
@@ -157,7 +177,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
         }
 
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        loop@ for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, bounds)
             val bottom = bounds.bottom + Math.round(ViewCompat.getTranslationY(child))
@@ -167,6 +187,19 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                 is NoDivider -> {}
                 is GridDivider -> {}
                 is VerticalDivider -> {
+                    if(vh is PositionDivider) {
+                        if (vh.inverted) {
+                            when(vh.positions.none { it == vh.adapterPosition }) {
+                                true -> {}
+                                false -> continue@loop
+                            }
+                        } else {
+                            when(vh.positions.none { it == vh.adapterPosition }) {
+                                true -> continue@loop
+                                false -> {}
+                            }
+                        }
+                    }
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
                                 dividerMap.put(vh, it)
