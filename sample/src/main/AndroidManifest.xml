@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".TicketActivity">
         </activity>
+        <activity android:name=".GridActivity">
+        </activity>
     </application>
 
 </manifest>

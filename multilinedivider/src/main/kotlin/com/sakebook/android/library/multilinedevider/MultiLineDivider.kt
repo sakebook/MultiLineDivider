@@ -8,13 +8,12 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.util.SimpleArrayMap
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.LinearLayout
-import com.sakebook.android.library.multilinedevider.divider.Divider
-import com.sakebook.android.library.multilinedevider.divider.HorizontalDivider
-import com.sakebook.android.library.multilinedevider.divider.NoDivider
-import com.sakebook.android.library.multilinedevider.divider.VerticalDivider
+import com.sakebook.android.library.multilinedevider.divider.*
 
 /**
  * Created by sakemotoshinya on 2017/04/24.
@@ -54,6 +53,42 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             VERTICAL -> {
                 when(vh) {
                     is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is GridDivider -> {
+                        val layoutManager = parent.layoutManager
+                        val spanCount = when(layoutManager) {
+                            is GridLayoutManager -> layoutManager.spanCount
+                            is StaggeredGridLayoutManager -> layoutManager.spanCount
+                            else -> -1
+                        }
+                        val padding = vh.padding / 2
+                        val lastGridCount = layoutManager.itemCount % spanCount
+                        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+                        when(vh.adapterPosition) {
+                            in 0 until spanCount -> {
+                                // first grid
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // left top
+                                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top
+                                    else -> outRect.set(padding, cornerPadding, padding, padding) // other
+                                }
+                            }
+                            in (layoutManager.itemCount - lastGridCount until layoutManager.itemCount) -> {
+                                // last grid
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // left bottom
+                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom
+                                    else -> outRect.set(padding, padding, padding, cornerPadding) // other
+                                }
+                            }
+                            else -> {
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(cornerPadding, padding, padding, padding) // left
+                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, padding) // right
+                                    else -> outRect.set(padding, padding, padding, padding) // other
+                                }
+                            }
+                        }
+                    }
                     is VerticalDivider -> outRect.set(0, 0, 0, vh.height)
                     else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
                 }
@@ -61,6 +96,42 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             HORIZONTAL -> {
                 when(vh) {
                     is NoDivider -> outRect.set(0, 0, 0, 0)
+                    is GridDivider -> {
+                        val layoutManager = parent.layoutManager
+                        val spanCount = when(layoutManager) {
+                            is GridLayoutManager -> layoutManager.spanCount
+                            is StaggeredGridLayoutManager -> layoutManager.spanCount
+                            else -> -1
+                        }
+                        val padding = vh.padding / 2
+                        val lastGridCount = layoutManager.itemCount % spanCount
+                        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+                        when(vh.adapterPosition) {
+                            in 0 until spanCount -> {
+                                // first grid
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // top left
+                                    spanCount - 1 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // top bottom
+                                    else -> outRect.set(cornerPadding, padding, padding, padding) // other
+                                }
+                            }
+                            in (layoutManager.itemCount - lastGridCount until layoutManager.itemCount) -> {
+                                // last grid
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // bottom left
+                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // bottom right
+                                    else -> outRect.set(padding, padding, cornerPadding, padding) // other
+                                }
+                            }
+                            else -> {
+                                when(vh.adapterPosition % spanCount) {
+                                    0 -> outRect.set(padding, cornerPadding, padding, padding) // top
+                                    spanCount - 1 -> outRect.set(padding, padding, padding, cornerPadding) // bottom
+                                    else -> outRect.set(padding, padding, padding, padding) // other
+                                }
+                            }
+                        }
+                    }
                     is HorizontalDivider -> outRect.set(0, 0, vh.width, 0)
                     else -> outRect.set(0, 0, defaultDivider.intrinsicWidth, 0)
                 }
@@ -94,6 +165,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             val vh = parent.getChildViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
+                is GridDivider -> {}
                 is VerticalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
@@ -144,6 +216,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
             val vh = parent.getChildViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
+                is GridDivider -> {}
                 is HorizontalDivider -> {
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {

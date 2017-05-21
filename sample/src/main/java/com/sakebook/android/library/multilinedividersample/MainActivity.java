@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.sakebook.android.library.multilinedividersample.multiline.LayoutType;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,19 +19,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initLayout() {
-        Button verticalButton = (Button) findViewById(R.id.button_vertical);
-        verticalButton.setOnClickListener(new View.OnClickListener() {
+        Button verticalLinearButton = (Button) findViewById(R.id.button_linear_vertical);
+        verticalLinearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = ListActivity.createIntent(MainActivity.this, LinearLayout.VERTICAL);
                 startActivity(intent);
             }
         });
-        Button horizontalButton = (Button) findViewById(R.id.button_horizontal);
-        horizontalButton.setOnClickListener(new View.OnClickListener() {
+        Button horizontalLinearButton = (Button) findViewById(R.id.button_linear_horizontal);
+        horizontalLinearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = ListActivity.createIntent(MainActivity.this, LinearLayout.HORIZONTAL);
+                startActivity(intent);
+            }
+        });
+        Button verticalGridButton = (Button) findViewById(R.id.button_grid_vertical);
+        verticalGridButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = GridActivity.createIntent(MainActivity.this, true, LinearLayout.VERTICAL);
+                startActivity(intent);
+            }
+        });
+        Button horizontalGridButton = (Button) findViewById(R.id.button_grid_horizontal);
+        horizontalGridButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = GridActivity.createIntent(MainActivity.this, false, LinearLayout.HORIZONTAL);
                 startActivity(intent);
             }
         });

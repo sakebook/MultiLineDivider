@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity {
 
     private final static String ORIENTATION = "orientation";
+
     public static Intent createIntent(Context context, int orientation) {
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra(ORIENTATION, orientation);
@@ -32,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     private void initList() {
         int orientation = (getIntent() != null) ? getIntent().getIntExtra(ORIENTATION, LinearLayout.VERTICAL) : LinearLayout.VERTICAL;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, orientation, false);
         recyclerView.setLayoutManager(layoutManager);
         MultiLineDivider multiLineDivider = new MultiLineDivider(this, orientation);
