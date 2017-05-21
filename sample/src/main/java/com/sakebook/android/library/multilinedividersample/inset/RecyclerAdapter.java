@@ -11,7 +11,6 @@ import com.sakebook.android.library.multilinedividersample.R;
 import java.util.ArrayList;
 
 import static com.sakebook.android.library.multilinedividersample.inset.RecyclerAdapter.ITEM_TYPE.First;
-import static com.sakebook.android.library.multilinedividersample.inset.RecyclerAdapter.ITEM_TYPE.Last;
 import static com.sakebook.android.library.multilinedividersample.inset.RecyclerAdapter.ITEM_TYPE.Other;
 
 /**
@@ -26,7 +25,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     enum ITEM_TYPE {
         First(0),
-        Last(1),
         Other(2),
         ;
 
@@ -56,9 +54,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (viewType) {
             case 0:
                 holder = new FirstViewHolder(inflater.inflate(R.layout.item_contact, parent, false));
-                break;
-            case 1:
-                holder = new LastViewHolder(inflater.inflate(R.layout.item_contact, parent, false));
                 break;
             default:
                 holder = new OtherViewHolder(inflater.inflate(R.layout.item_contact, parent, false));
@@ -95,9 +90,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (index == 0) {
             // first
             return First;
-        } else if (index == targetList.size() - 1) {
-            // last
-            return Last;
         } else {
             return Other;
         }

@@ -50,92 +50,149 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
         val vh = parent.getChildViewHolder(view)
         when(orientation) {
-            VERTICAL -> {
-                when(vh) {
-                    is NoDivider -> outRect.set(0, 0, 0, 0)
-                    is GridDivider -> {
-                        val layoutManager = parent.layoutManager
-                        val spanCount = when(layoutManager) {
-                            is GridLayoutManager -> layoutManager.spanCount
-                            is StaggeredGridLayoutManager -> layoutManager.spanCount
-                            else -> -1
-                        }
-                        val padding = vh.padding / 2
-                        val lastGridCount = layoutManager.itemCount % spanCount
-                        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
-                        when(vh.adapterPosition) {
-                            in 0 until spanCount -> {
-                                // first grid
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // left top
-                                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top
-                                    else -> outRect.set(padding, cornerPadding, padding, padding) // other
-                                }
-                            }
-                            in (layoutManager.itemCount - lastGridCount until layoutManager.itemCount) -> {
-                                // last grid
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // left bottom
-                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom
-                                    else -> outRect.set(padding, padding, padding, cornerPadding) // other
-                                }
-                            }
-                            else -> {
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(cornerPadding, padding, padding, padding) // left
-                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, padding) // right
-                                    else -> outRect.set(padding, padding, padding, padding) // other
-                                }
-                            }
-                        }
-                    }
-                    is VerticalDivider -> outRect.set(0, 0, 0, vh.height)
-                    else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
+            VERTICAL -> getVerticalItemOffsets(outRect, vh, parent)
+            HORIZONTAL -> getHorizontalItemOffsets(outRect, vh, parent)
+        }
+    }
+
+    private fun getVerticalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, parent: RecyclerView) {
+        when(vh) {
+            is NoDivider -> outRect.set(0, 0, 0, 0)
+            is GridDivider -> {
+                val layoutManager = parent.layoutManager
+                val spanCount = when(layoutManager) {
+                    is GridLayoutManager -> layoutManager.spanCount
+                    is StaggeredGridLayoutManager -> layoutManager.spanCount
+                    else -> -1
+                }
+                gridVerticalItemOffsets(outRect, vh, spanCount, layoutManager.itemCount)
+            }
+            is VerticalDivider -> dividerVerticalItemOffsets(outRect, vh)
+            is PositionDivider -> {
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, 0, if (vh.inverted) defaultDivider.intrinsicHeight else 0)
+                    false -> outRect.set(0, 0, 0, if (vh.inverted) 0 else defaultDivider.intrinsicHeight)
                 }
             }
-            HORIZONTAL -> {
-                when(vh) {
-                    is NoDivider -> outRect.set(0, 0, 0, 0)
-                    is GridDivider -> {
-                        val layoutManager = parent.layoutManager
-                        val spanCount = when(layoutManager) {
-                            is GridLayoutManager -> layoutManager.spanCount
-                            is StaggeredGridLayoutManager -> layoutManager.spanCount
-                            else -> -1
-                        }
-                        val padding = vh.padding / 2
-                        val lastGridCount = layoutManager.itemCount % spanCount
-                        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
-                        when(vh.adapterPosition) {
-                            in 0 until spanCount -> {
-                                // first grid
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // top left
-                                    spanCount - 1 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // top bottom
-                                    else -> outRect.set(cornerPadding, padding, padding, padding) // other
-                                }
-                            }
-                            in (layoutManager.itemCount - lastGridCount until layoutManager.itemCount) -> {
-                                // last grid
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // bottom left
-                                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // bottom right
-                                    else -> outRect.set(padding, padding, cornerPadding, padding) // other
-                                }
-                            }
-                            else -> {
-                                when(vh.adapterPosition % spanCount) {
-                                    0 -> outRect.set(padding, cornerPadding, padding, padding) // top
-                                    spanCount - 1 -> outRect.set(padding, padding, padding, cornerPadding) // bottom
-                                    else -> outRect.set(padding, padding, padding, padding) // other
-                                }
-                            }
-                        }
-                    }
-                    is HorizontalDivider -> outRect.set(0, 0, vh.width, 0)
-                    else -> outRect.set(0, 0, defaultDivider.intrinsicWidth, 0)
+            else -> outRect.set(0, 0, 0, defaultDivider.intrinsicHeight)
+        }
+    }
+
+    private fun getHorizontalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, parent: RecyclerView) {
+        when(vh) {
+            is NoDivider -> outRect.set(0, 0, 0, 0)
+            is GridDivider -> {
+                val layoutManager = parent.layoutManager
+                val spanCount = when(layoutManager) {
+                    is GridLayoutManager -> layoutManager.spanCount
+                    is StaggeredGridLayoutManager -> layoutManager.spanCount
+                    else -> -1
+                }
+                gridHorizontalItemOffsets(outRect, vh, spanCount, layoutManager.itemCount)
+            }
+            is HorizontalDivider -> {
+                dividerHorizontalItemOffsets(outRect, vh)
+            }
+            is PositionDivider -> {
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, if (vh.inverted) defaultDivider.intrinsicHeight else 0, 0)
+                    false -> outRect.set(0, 0, if (vh.inverted) 0 else defaultDivider.intrinsicHeight, 0)
                 }
             }
+
+            else -> outRect.set(0, 0, defaultDivider.intrinsicWidth, 0)
+        }
+    }
+
+    private fun gridVerticalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+        vh as GridDivider
+        val padding = vh.padding / 2
+        val lastGridCount = itemCount % spanCount
+        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+        when(vh.adapterPosition) {
+            in 0 until spanCount -> {
+                // first grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // left top
+                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
+                    else -> outRect.set(padding, cornerPadding, padding, padding) // other
+                }
+            }
+            in (itemCount - lastGridCount until itemCount) -> {
+                // last grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // left bottom
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
+                    else -> outRect.set(padding, padding, padding, cornerPadding) // other
+                }
+            }
+            else -> {
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, padding, padding, padding) // left
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, padding) // right
+                    else -> outRect.set(padding, padding, padding, padding) // other
+                }
+            }
+        }
+    }
+
+    private fun gridHorizontalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+        vh as GridDivider
+        val padding = vh.padding / 2
+        val lastGridCount = itemCount % spanCount
+        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+        when(vh.adapterPosition) {
+            in 0 until spanCount -> {
+                // first grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // top left
+                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
+                    else -> outRect.set(cornerPadding, padding, padding, padding) // other
+                }
+            }
+            in (itemCount - lastGridCount until itemCount) -> {
+                // last grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // bottom left
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
+                    else -> outRect.set(padding, padding, cornerPadding, padding) // other
+                }
+            }
+            else -> {
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(padding, cornerPadding, padding, padding) // top
+                    spanCount - 1 -> outRect.set(padding, padding, padding, cornerPadding) // bottom
+                    else -> outRect.set(padding, padding, padding, padding) // other
+                }
+            }
+        }
+    }
+
+    private fun dividerVerticalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+        vh as VerticalDivider
+        when(vh is PositionDivider){
+            true -> {
+                vh as PositionDivider
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, 0, if (vh.inverted) vh.height else 0)
+                    false -> outRect.set(0, 0, 0, if (vh.inverted) 0 else vh.height)
+                }
+            }
+            false -> outRect.set(0, 0, 0, vh.height)
+        }
+    }
+
+    private fun dividerHorizontalItemOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+        vh as HorizontalDivider
+        when(vh is PositionDivider){
+            true -> {
+                vh as PositionDivider
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, if (vh.inverted) vh.width else 0, 0)
+                    false -> outRect.set(0, 0, if (vh.inverted) 0 else vh.width, 0)
+                }
+            }
+            false -> outRect.set(0, 0, vh.width, 0)
         }
     }
 
@@ -157,7 +214,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
         }
 
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        loop@ for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, bounds)
             val bottom = bounds.bottom + Math.round(ViewCompat.getTranslationY(child))
@@ -167,6 +224,12 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                 is NoDivider -> {}
                 is GridDivider -> {}
                 is VerticalDivider -> {
+                    if(vh is PositionDivider) {
+                        when(vh.positions.any { it == vh.adapterPosition }) {
+                            true -> if (vh.inverted) continue@loop
+                            false -> if (vh.inverted) else continue@loop
+                        }
+                    }
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
                                 dividerMap.put(vh, it)
@@ -180,6 +243,15 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                         }
                         d.draw(canvas)
                     }
+                }
+                is PositionDivider -> {
+                    when(vh.positions.any { it == vh.adapterPosition }) {
+                        true -> if (vh.inverted) continue@loop
+                        false -> if (vh.inverted) else continue@loop
+                    }
+                    val top = bottom - defaultDivider.intrinsicHeight
+                    defaultDivider.setBounds(left, top, right, bottom)
+                    defaultDivider.draw(canvas)
                 }
                 else -> {
                     val top = bottom - defaultDivider.intrinsicHeight
@@ -208,7 +280,7 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
         }
 
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        loop@ for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.layoutManager.getDecoratedBoundsWithMargins(child, bounds)
             val right = bounds.right + Math.round(ViewCompat.getTranslationX(child))
@@ -218,6 +290,12 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                 is NoDivider -> {}
                 is GridDivider -> {}
                 is HorizontalDivider -> {
+                    if(vh is PositionDivider) {
+                        when(vh.positions.any { it == vh.adapterPosition }) {
+                            true -> if (vh.inverted) continue@loop
+                            false -> if (vh.inverted) else continue@loop
+                        }
+                    }
                     val drawable = dividerMap[vh]?: // Reuse divider
                             ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.also {
                                 dividerMap.put(vh, it)
@@ -231,6 +309,15 @@ class MultiLineDivider(val context: Context, val orientation: Int = VERTICAL): R
                         }
                         d.draw(canvas)
                     }
+                }
+                is PositionDivider -> {
+                    when(vh.positions.any { it == vh.adapterPosition }) {
+                        true -> if (vh.inverted) continue@loop
+                        false -> if (vh.inverted) else continue@loop
+                    }
+                    val left = right - defaultDivider.intrinsicWidth
+                    defaultDivider.setBounds(left, top, right, bottom)
+                    defaultDivider.draw(canvas)
                 }
                 else -> {
                     val left = right - defaultDivider.intrinsicWidth

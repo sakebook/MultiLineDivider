@@ -51,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button verticalPositionButton = (Button) findViewById(R.id.button_position_vertical);
+        verticalPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PositionActivity.createIntent(MainActivity.this, false, LinearLayout.VERTICAL);
+                startActivity(intent);
+            }
+        });
+        Button horizontalPositionButton = (Button) findViewById(R.id.button_position_horizontal);
+        horizontalPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PositionActivity.createIntent(MainActivity.this, true, LinearLayout.HORIZONTAL);
+                startActivity(intent);
+            }
+        });
         Button contactButton = (Button) findViewById(R.id.button_contact);
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
