@@ -31,7 +31,7 @@ public class PositionInvertedViewHolder extends ViewHolder<Integer> implements P
     @NotNull
     @Override
     public List<Integer> getPositions() {
-        return Arrays.asList(3, 4, 6, 9);
+        return Arrays.asList(2, 12, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32, 42); // include "2"
     }
 
     @Override
