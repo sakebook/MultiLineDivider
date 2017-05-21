@@ -37,6 +37,18 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/button_position_vertical"
+            android:text="position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_position_horizontal"
+            android:text="position(inverted)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
             android:id="@+id/button_contact"
             android:text="inset"
             android:layout_width="match_parent"

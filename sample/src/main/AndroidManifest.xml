@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".GridActivity">
         </activity>
+        <activity android:name=".PositionActivity">
+        </activity>
     </application>
 
 </manifest>
