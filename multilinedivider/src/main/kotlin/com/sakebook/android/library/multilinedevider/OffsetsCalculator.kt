@@ -25,7 +25,7 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
         }
     }
 
-    private fun determineVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+    internal fun determineVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
         when(vh) {
             is NoDivider -> outRect.set(0, 0, 0, 0)
             is GridDivider -> gridVerticalOffsets(outRect, vh, spanCount, itemCount)
@@ -35,7 +35,7 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
         }
     }
 
-    private fun determineHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+    internal fun determineHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
         when(vh) {
             is NoDivider -> outRect.set(0, 0, 0, 0)
             is GridDivider -> gridHorizontalOffsets(outRect, vh, spanCount, itemCount)
@@ -45,26 +45,106 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
         }
     }
 
-    internal fun gridVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+    private fun gridVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+        vh as GridDivider
+        val padding = vh.padding / 2
+        val lastGridCount = itemCount % spanCount
+        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+        when(vh.adapterPosition) {
+            in 0 until spanCount -> {
+                // first grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // left top
+                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
+                    else -> outRect.set(padding, cornerPadding, padding, padding) // other
+                }
+            }
+            in (itemCount - lastGridCount until itemCount) -> {
+                // last grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // left bottom
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
+                    else -> outRect.set(padding, padding, padding, cornerPadding) // other
+                }
+            }
+            else -> {
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, padding, padding, padding) // left
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, padding) // right
+                    else -> outRect.set(padding, padding, padding, padding) // other
+                }
+            }
+        }
     }
 
-    internal fun gridHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+    private fun gridHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
+        vh as GridDivider
+        val padding = vh.padding / 2
+        val lastGridCount = itemCount % spanCount
+        val cornerPadding = if (vh.fullBleed) 0 else vh.padding
+        when(vh.adapterPosition) {
+            in 0 until spanCount -> {
+                // first grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // top left
+                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
+                    else -> outRect.set(cornerPadding, padding, padding, padding) // other
+                }
+            }
+            in (itemCount - lastGridCount until itemCount) -> {
+                // last grid
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // bottom left
+                    spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
+                    else -> outRect.set(padding, padding, cornerPadding, padding) // other
+                }
+            }
+            else -> {
+                when(vh.adapterPosition % spanCount) {
+                    0 -> outRect.set(padding, cornerPadding, padding, padding) // top
+                    spanCount - 1 -> outRect.set(padding, padding, padding, cornerPadding) // bottom
+                    else -> outRect.set(padding, padding, padding, padding) // other
+                }
+            }
+        }
     }
 
-    internal fun dividerVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+    private fun dividerVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+        vh as VerticalDivider
+        when(vh is PositionDivider){
+            true -> {
+                vh as PositionDivider
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, 0, if (vh.inverted) vh.height else 0)
+                    false -> outRect.set(0, 0, 0, if (vh.inverted) 0 else vh.height)
+                }
+            }
+            false -> outRect.set(0, 0, 0, vh.height)
+        }
     }
 
-    internal fun dividerHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+    private fun dividerHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+        vh as HorizontalDivider
+        when(vh is PositionDivider){
+            true -> {
+                vh as PositionDivider
+                when(vh.positions.any { it == vh.adapterPosition }) {
+                    true -> outRect.set(0, 0, if (vh.inverted) vh.width else 0, 0)
+                    false -> outRect.set(0, 0, if (vh.inverted) 0 else vh.width, 0)
+                }
+            }
+            false -> outRect.set(0, 0, vh.width, 0)
+        }
     }
 
-    internal fun positionVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+    private fun positionVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
         vh as PositionDivider
         when(vh.positions.any { it == vh.adapterPosition }) {
             true -> outRect.set(0, 0, 0, if (vh.inverted) divider.intrinsicHeight else 0)
             false -> outRect.set(0, 0, 0, if (vh.inverted) 0 else divider.intrinsicHeight)
         }
     }
-    internal fun positionHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
+    private fun positionHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
         vh as PositionDivider
         when(vh.positions.any { it == vh.adapterPosition }) {
             true -> outRect.set(0, 0, if (vh.inverted) divider.intrinsicWidth else 0, 0)
