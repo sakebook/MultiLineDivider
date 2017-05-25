@@ -48,12 +48,13 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
     private fun gridVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
         vh as GridDivider
         val padding = vh.padding / 2
-        val lastGridCount = itemCount % spanCount
+        val lastGridCount = if (itemCount % spanCount == 0) spanCount else itemCount % spanCount
         val cornerPadding = if (vh.fullBleed) 0 else vh.padding
-        when(vh.adapterPosition) {
+        val position = vh.adapterPosition
+        when(position) {
             in 0 until spanCount -> {
                 // first grid
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // left top
                     spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
                     else -> outRect.set(padding, cornerPadding, padding, padding) // other
@@ -61,14 +62,14 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
             }
             in (itemCount - lastGridCount until itemCount) -> {
                 // last grid
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // left bottom
                     spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
                     else -> outRect.set(padding, padding, padding, cornerPadding) // other
                 }
             }
             else -> {
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(cornerPadding, padding, padding, padding) // left
                     spanCount - 1 -> outRect.set(padding, padding, cornerPadding, padding) // right
                     else -> outRect.set(padding, padding, padding, padding) // other
@@ -80,27 +81,28 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
     private fun gridHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder, spanCount: Int, itemCount: Int) {
         vh as GridDivider
         val padding = vh.padding / 2
-        val lastGridCount = itemCount % spanCount
+        val lastGridCount = if (itemCount % spanCount == 0) spanCount else itemCount % spanCount
         val cornerPadding = if (vh.fullBleed) 0 else vh.padding
-        when(vh.adapterPosition) {
+        val position = vh.adapterPosition
+        when(position) {
             in 0 until spanCount -> {
                 // first grid
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(cornerPadding, cornerPadding, padding, padding) // top left
-                    spanCount - 1 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // right top, top bottom
+                    spanCount - 1 -> outRect.set(cornerPadding, padding, padding, cornerPadding) // right top, top bottom
                     else -> outRect.set(cornerPadding, padding, padding, padding) // other
                 }
             }
             in (itemCount - lastGridCount until itemCount) -> {
                 // last grid
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(padding, cornerPadding, cornerPadding, padding) // bottom left
                     spanCount - 1 -> outRect.set(padding, padding, cornerPadding, cornerPadding) // right bottom, bottom right
                     else -> outRect.set(padding, padding, cornerPadding, padding) // other
                 }
             }
             else -> {
-                when(vh.adapterPosition % spanCount) {
+                when(position % spanCount) {
                     0 -> outRect.set(padding, cornerPadding, padding, padding) // top
                     spanCount - 1 -> outRect.set(padding, padding, padding, cornerPadding) // bottom
                     else -> outRect.set(padding, padding, padding, padding) // other
