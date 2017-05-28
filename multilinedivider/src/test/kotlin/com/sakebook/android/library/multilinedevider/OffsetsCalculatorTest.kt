@@ -40,6 +40,8 @@ class OffsetsCalculatorTest {
     fun setup() {
     }
 
+    // GridDivider
+
     @Test
     @Throws(Exception::class)
     fun testVerticalGridFirst() {
@@ -162,7 +164,130 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectRightCenter, actual)
         offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
         Assert.assertEquals(expectRightBottom, actual)
+    }
 
+    @Test
+    @Throws(Exception::class)
+    fun testVerticalFullBleedGridFirst() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = GridViewHolder(view, PADDINGx6, true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1, 2, 3, 4, 5)
+        val expectTopLeft = Rect(0, 0, PADDINGx3, PADDINGx3)
+        val expectTopCenter = Rect(PADDINGx3, 0, PADDINGx3, PADDINGx3)
+        val expectTopRight = Rect(PADDINGx3, 0, 0, PADDINGx3)
+        val expectLeft = Rect(0, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectCenter = Rect(PADDINGx3, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectRight = Rect(PADDINGx3, PADDINGx3, 0, PADDINGx3)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectTopLeft, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectTopCenter, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectTopRight, actual)
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectLeft, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectCenter, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectRight, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testVerticalFullBleedGridLast() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = GridViewHolder(view, PADDINGx6, true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(114, 115, 116, 117, 118, 119)
+        val expectLeft = Rect(0, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectCenter = Rect(PADDINGx3, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectRight = Rect(PADDINGx3, PADDINGx3, 0, PADDINGx3)
+        val expectBottomLeft = Rect(0, PADDINGx3, PADDINGx3, 0)
+        val expectBottomCenter = Rect(PADDINGx3, PADDINGx3, PADDINGx3, 0)
+        val expectBottomRight = Rect(PADDINGx3, PADDINGx3, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectLeft, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectCenter, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectRight, actual)
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectBottomLeft, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectBottomCenter, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectBottomRight, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontalFullBleedGridFirst() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = GridViewHolder(view, PADDINGx6, true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1, 2, 3, 4, 5)
+        val expectLeftTop = Rect(0, 0, PADDINGx3, PADDINGx3)
+        val expectLeftCenter = Rect(0, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectLeftBottom = Rect(0, PADDINGx3, PADDINGx3, 0)
+        val expectTop = Rect(PADDINGx3, 0, PADDINGx3, PADDINGx3)
+        val expectCenter = Rect(PADDINGx3, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectBottom = Rect(PADDINGx3, PADDINGx3, PADDINGx3, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectLeftTop, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectLeftCenter, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectLeftBottom, actual)
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectTop, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectCenter, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectBottom, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontalFullBleedGridLast() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = GridViewHolder(view, PADDINGx6, true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(114, 115, 116, 117, 118, 119)
+        val expectTop = Rect(PADDINGx3, 0, PADDINGx3, PADDINGx3)
+        val expectCenter = Rect(PADDINGx3, PADDINGx3, PADDINGx3, PADDINGx3)
+        val expectBottom = Rect(PADDINGx3, PADDINGx3, PADDINGx3, 0)
+        val expectRightTop = Rect(PADDINGx3, 0, 0, PADDINGx3)
+        val expectRightCenter = Rect(PADDINGx3, PADDINGx3, 0, PADDINGx3)
+        val expectRightBottom = Rect(PADDINGx3, PADDINGx3, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectTop, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectCenter, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectBottom, actual)
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectRightTop, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectRightCenter, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, 3, 120)
+        Assert.assertEquals(expectRightBottom, actual)
     }
 
     class GridViewHolder(view: View, override val padding: Int, override val fullBleed: Boolean) : RecyclerView.ViewHolder(view), GridDivider
