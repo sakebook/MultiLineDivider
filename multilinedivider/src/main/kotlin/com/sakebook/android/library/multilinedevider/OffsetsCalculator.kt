@@ -141,14 +141,17 @@ class OffsetsCalculator(val divider: Drawable, val orientation: Int) {
 
     private fun positionVerticalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
         vh as PositionDivider
-        when(vh.positions.any { it == vh.adapterPosition }) {
+        val position = vh.adapterPosition
+        when(vh.positions.any { it == position }) {
             true -> outRect.set(0, 0, 0, if (vh.inverted) divider.intrinsicHeight else 0)
             false -> outRect.set(0, 0, 0, if (vh.inverted) 0 else divider.intrinsicHeight)
         }
     }
+    
     private fun positionHorizontalOffsets(outRect: Rect, vh: RecyclerView.ViewHolder) {
         vh as PositionDivider
-        when(vh.positions.any { it == vh.adapterPosition }) {
+        val position = vh.adapterPosition
+        when(vh.positions.any { it == position }) {
             true -> outRect.set(0, 0, if (vh.inverted) divider.intrinsicWidth else 0, 0)
             false -> outRect.set(0, 0, if (vh.inverted) 0 else divider.intrinsicWidth, 0)
         }
