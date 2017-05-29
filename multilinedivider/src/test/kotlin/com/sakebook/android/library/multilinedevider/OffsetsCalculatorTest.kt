@@ -19,7 +19,7 @@ import org.robolectric.annotation.Config
  * Created by sakemotoshinya on 2017/05/24.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(constants = BuildConfig::class)
+@Config(constants = BuildConfig::class, sdk = intArrayOf(21))
 class OffsetsCalculatorTest {
 
     val PADDING = 8
@@ -392,6 +392,26 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectNoDivider, actual)
         offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
         Assert.assertEquals(expectDivider, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testVertical() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = VerticalViewHolder(view, PADDINGx3, R.drawable.simple_divider, null)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2)
+        val expectDivider = Rect(0, 0, 0, PADDINGx3)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+
     }
 
     class GridViewHolder(view: View, override val padding: Int, override val fullBleed: Boolean) : RecyclerView.ViewHolder(view), GridDivider
