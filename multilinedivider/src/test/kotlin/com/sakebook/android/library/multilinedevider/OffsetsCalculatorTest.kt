@@ -290,6 +290,8 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectRightBottom, actual)
     }
 
+    // PositionDivider
+
     @Test
     @Throws(Exception::class)
     fun testVerticalPosition() {
@@ -394,6 +396,8 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectDivider, actual)
     }
 
+    // NoDivider
+
     @Test
     @Throws(Exception::class)
     fun testVerticalNoDivider() {
@@ -432,6 +436,8 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectNoDivider, actual)
     }
 
+    // VerticalDivider
+
     @Test
     @Throws(Exception::class)
     fun testVertical() {
@@ -450,6 +456,8 @@ class OffsetsCalculatorTest {
         offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
         Assert.assertEquals(expectDivider, actual)
     }
+
+    // HorizontalDivider
 
     @Test
     @Throws(Exception::class)
@@ -470,9 +478,119 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectDivider, actual)
     }
 
+    // VerticalDivider with PositionDivider
+
+    @Test
+    @Throws(Exception::class)
+    fun testVerticalWithPosition() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = VerticalWithPositionDividerViewHolder(view, PADDINGx3, R.drawable.simple_divider, null, listOf(2, 3, 5), false)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2, 3 ,4, 5)
+        val expectDivider = Rect(0, 0, 0, PADDINGx3)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testVerticalWithPositionInverted() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = VerticalWithPositionDividerViewHolder(view, PADDINGx3, R.drawable.simple_divider, null, listOf(2, 3, 5), true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2, 3 ,4, 5)
+        val expectDivider = Rect(0, 0, 0, PADDINGx3)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+    }
+
+    // HorizontalDivider with PositionDivider
+
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontalWithPosition() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = HorizontalWithPositionDividerViewHolder(view, PADDINGx3, R.drawable.simple_divider, null, listOf(2, 3, 5), false)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2 ,3, 4, 5)
+        val expectDivider = Rect(0, 0, PADDINGx3, 0)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontalWithPositionInverted() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = HorizontalWithPositionDividerViewHolder(view, PADDINGx3, R.drawable.simple_divider, null, listOf(2, 3, 5), true)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2 ,3, 4, 5)
+        val expectDivider = Rect(0, 0, PADDINGx3, 0)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+    }
+
     class GridViewHolder(view: View, override val padding: Int, override val fullBleed: Boolean) : RecyclerView.ViewHolder(view), GridDivider
     class PositionViewHolder(view: View, override val positions: List<Int>, override val inverted: Boolean) : RecyclerView.ViewHolder(view), PositionDivider
     class VerticalViewHolder(view: View, override val height: Int, override val drawableRes: Int, override val verticalInset: Pair<Int, Int>?) : RecyclerView.ViewHolder(view), VerticalDivider
     class HorizontalViewHolder(view: View, override val width: Int, override val drawableRes: Int, override val horizontalInset: Pair<Int, Int>?) : RecyclerView.ViewHolder(view), HorizontalDivider
     class NoDividerViewHolder(view: View): RecyclerView.ViewHolder(view), NoDivider
+    class VerticalWithPositionDividerViewHolder(view: View, override val height: Int, override val drawableRes: Int, override val verticalInset: Pair<Int, Int>?, override val positions: List<Int>, override val inverted: Boolean) : RecyclerView.ViewHolder(view), VerticalDivider, PositionDivider
+    class HorizontalWithPositionDividerViewHolder(view: View, override val width: Int, override val drawableRes: Int, override val horizontalInset: Pair<Int, Int>?, override val positions: List<Int>, override val inverted: Boolean) : RecyclerView.ViewHolder(view), HorizontalDivider, PositionDivider
 }
