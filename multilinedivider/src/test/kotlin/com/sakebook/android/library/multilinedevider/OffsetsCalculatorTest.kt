@@ -411,7 +411,25 @@ class OffsetsCalculatorTest {
         Assert.assertEquals(expectDivider, actual)
         offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
         Assert.assertEquals(expectDivider, actual)
+    }
 
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontal() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = HorizontalViewHolder(view, PADDINGx3, R.drawable.simple_divider, null)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2)
+        val expectDivider = Rect(0, 0, PADDINGx3, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectDivider, actual)
     }
 
     class GridViewHolder(view: View, override val padding: Int, override val fullBleed: Boolean) : RecyclerView.ViewHolder(view), GridDivider
