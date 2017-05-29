@@ -396,6 +396,44 @@ class OffsetsCalculatorTest {
 
     @Test
     @Throws(Exception::class)
+    fun testVerticalNoDivider() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
+        val view = View(context)
+        val vh = NoDividerViewHolder(view)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineVerticalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testHorizontalNoDivider() {
+        val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.HORIZONTAL)
+        val view = View(context)
+        val vh = NoDividerViewHolder(view)
+        val mockViewHolder = Mockito.spy(vh)
+        Mockito.`when`(mockViewHolder.adapterPosition).thenReturn(0, 1 ,2)
+        val expectNoDivider = Rect(0, 0, 0, 0)
+        val actual = Rect()
+
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+        offsetCalculator.determineHorizontalOffsets(actual, mockViewHolder, -1, 120)
+        Assert.assertEquals(expectNoDivider, actual)
+    }
+
+    @Test
+    @Throws(Exception::class)
     fun testVertical() {
         val offsetCalculator = OffsetsCalculator(mockDrawable, MultiLineDivider.VERTICAL)
         val view = View(context)
