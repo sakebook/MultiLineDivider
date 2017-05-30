@@ -32,7 +32,7 @@ Multi divider in RecyclerView on Android.
 Add dependencies
 
 ```gradle
-compile 'com.github.sakebook:MultiLineDivider:0.1.0@aar'
+compile 'com.github.sakebook:MultiLineDivider:0.2.0@aar'
 
 // Use from Java
 compile "org.jetbrains.kotlin:kotlin-stdlib:kotlin_version"
