@@ -16,6 +16,10 @@ Multi divider in RecyclerView on Android.
 |:---:|:---:|
 |![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/grid.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/full_bleed.png)|
 
+|Position|Inverted|
+|:---:|:---:|
+|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/position.png)|![image](https://raw.githubusercontent.com/sakebook/MultiLineDivider/master/art/position_inverted.png)|
+
 ---
 
 
@@ -102,7 +106,7 @@ MultiLineDivider multiLineDivider = new MultiLineDivider(this, LinearLayout.HORI
 and implements `HorizontalDivider`
 
 
-### If you don't want to draw divider
+### If you __don't__ want to draw divider
 
 Implements `NoDivider`
 
@@ -151,6 +155,48 @@ class YourViewHolder(view: View): RecyclerView.ViewHolder(view), GridDivider {
     override val fullBleed = true
 }
 ```
+
+### If you want to draw divider in specific position
+
+- Java
+
+```java
+public class YourViewHolder extends RecyclerView.ViewHolder implements PositionDivider {
+
+    public YourViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @NotNull
+    @Override
+    public List<Integer> getPositions() {
+        return Arrays.asList(2, 12, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32, 42); // include "2"
+    }
+
+    @Override
+    public boolean getInverted() {
+        return false;
+    }
+}
+```
+
+- Kotlin
+
+```kotlin
+class YourViewHolder(view: View): RecyclerView.ViewHolder(view), PositionDivider {
+    override val positions = listOf(2, 12, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32, 42)
+    override val inverted = false
+}
+```
+
+### If you __don't__ want to draw divider in specific position
+
+Implements `PositionDivider` with `inverted` true
+
+### If you want to draw custom divider in specific position
+
+Implements `PositionDivider` and `VerticalDivider` or `HorizontalDivider`
+
 
 ## ProGuard
 
