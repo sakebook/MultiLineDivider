@@ -1,6 +1,6 @@
 build:
   box:
-      id: sakebook/docker-android-alpine
+      id: hub.docker.com/sakebook/docker-android-alpine
       username: $USERNAME
       password: $PASSWORD
       tag: latest
