@@ -4,6 +4,7 @@ build:
       username: $USERNAME
       password: $PASSWORD
       tag: latest
+      registry: hub.docker.com
   steps:
     - script:
         name: unit test
