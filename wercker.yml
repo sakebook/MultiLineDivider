@@ -1,9 +1,8 @@
 box:
-    id: hub.docker.com/sakebook/docker-android-alpine
+    id: sakebook/docker-android-alpine
     username: $USERNAME
     password: $PASSWORD
     tag: latest
-    registry: hub.docker.com
 build:
   steps:
     - script:
