@@ -1,0 +1,12 @@
+box:
+    id: hub.docker.com/sakebook/docker-android-alpine
+    username: $USERNAME
+    password: $PASSWORD
+    tag: latest
+    registry: hub.docker.com
+build:
+  steps:
+    - script:
+        name: unit test
+        code: |
+          ./gradlew clean :multilinedivider:testDebugUnitTest
