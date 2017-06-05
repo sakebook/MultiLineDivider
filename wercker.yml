@@ -1,11 +1,11 @@
+box:
+  id: sakebook/docker-android-alpine
+  username: $USERNAME
+  password: $PASSWORD
+  tag: 25.0.3
 build:
-  box:
-      id: sakebook/docker-android-alpine
-      username: $USERNAME
-      password: $PASSWORD
-      tag: latest
   steps:
     - script:
-        name: unit test
-        code: |
-          ./gradlew clean :multilinedivider:testDebugUnitTest
+      name: unit test
+      code: |
+        ./gradlew clean :multilinedivider:testDebugUnitTest
