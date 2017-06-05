@@ -2,7 +2,9 @@ MultiLineDivider
 ============
 Multi divider in RecyclerView on Android.
 
-[ ![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MultiLineDivider-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5735)
+[![Download](https://api.bintray.com/packages/sakebook/maven/MultiLineDivider/images/download.svg) ](https://bintray.com/sakebook/maven/MultiLineDivider/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MultiLineDivider-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5735)
+
+[![wercker status](https://app.wercker.com/status/7b5ad7fbfb97759c7d5ef14778e0539a/s/ "wercker status")](https://app.wercker.com/project/byKey/7b5ad7fbfb97759c7d5ef14778e0539a)
 
 |Vertical|Horizontal|
 |:---:|:---:|
@@ -25,7 +27,7 @@ Multi divider in RecyclerView on Android.
 
 - Requirement
   - SDK Version __16+__
-  - (Use from Java)Kotlin Version __1.0.0+__ 
+  - (Use from Java)Kotlin Version __1.0.0+__
 
 
 ## Usage
