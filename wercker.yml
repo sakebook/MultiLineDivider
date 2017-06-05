@@ -1,10 +1,9 @@
 build:
   box:
-      id: hub.docker.com/r/sakebook/docker-android-alpine
+      id: sakebook/docker-android-alpine
       username: $USERNAME
       password: $PASSWORD
       tag: latest
-      registry: hub.docker.com
   steps:
     - script:
         name: unit test
