@@ -2,7 +2,7 @@ box:
   id: sakebook/docker-android-alpine
   username: $USERNAME
   password: $PASSWORD
-  tag: 25.0.3
+  tag: 25.0.3_1
 build:
   steps:
     - script:
