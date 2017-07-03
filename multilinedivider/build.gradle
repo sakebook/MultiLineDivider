@@ -41,7 +41,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.3.2"
-    testCompile "org.mockito:mockito-inline:2.8.9"
+    testCompile "org.mockito:mockito-inline:2.8.47"
     compile "com.android.support:appcompat-v7:$support_library_version"
     compile "com.android.support:recyclerview-v7:$support_library_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
