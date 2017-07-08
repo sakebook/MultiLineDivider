@@ -1,0 +1,62 @@
+---
+format_version: '3'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: android
+workflows:
+  run-test-docker:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@3.4.4: {}
+    - cache-pull@1.0.0: {}
+    - script@1.1.4:
+        title: run test use docker
+        inputs:
+        - content: |-
+            rm -rf local.properties
+            docker run --rm \
+              -v $(pwd):$USER_HOME \
+              -w $USER_HOME \
+              $DOCKERHUB_IMG_ID bash -c \
+                "
+                bundle install
+                bundle exec danger
+                ./gradlew :multilinedivider:test
+                "
+    - cache-push@1.1.0: {}
+    before_run:
+    - docker-build
+  run-test:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@3.4.4: {}
+    - cache-pull@1.0.0: {}
+    - script@1.1.4:
+        title: run danger
+        inputs:
+        - content: |-
+            bundle install
+            bundle exec danger
+    - gradle-unit-test@1.0.1:
+        inputs:
+        - unit_test_task: ":multilinedivider:test"
+    - cache-push@1.1.0: {}
+  docker-build:
+    steps:
+    - script@1.1.4:
+        title: docker login & pull
+        inputs:
+        - content: |-
+            docker login -u $USERNAME -p $PASSWORD
+            docker pull $DOCKERHUB_IMG_ID
+app:
+  envs:
+  - opts:
+      is_expand: false
+    GRADLEW_PATH: "./gradlew"
+  - opts:
+      is_expand: false
+    GRADLE_BUILD_FILE_PATH: build.gradle
+  - USER_HOME: /root
+  - DOCKERHUB_IMG_ID: sakebook/docker-android-alpine:25.0.3_3

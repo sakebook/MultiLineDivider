@@ -67,3 +67,7 @@ freeline_project_description.json
 
 # wercker
 .wercker/
+
+# bitrise
+.envstore.yml
+.bitrise.secrets.yml
