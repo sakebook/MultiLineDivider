@@ -67,12 +67,8 @@ workflows:
             docker pull $DOCKERHUB_IMG_ID
 app:
   envs:
-  - opts:
-      is_expand: false
-    GRADLEW_PATH: "./gradlew"
-  - opts:
-      is_expand: false
-    GRADLE_BUILD_FILE_PATH: build.gradle
+  - GRADLEW_PATH: "./gradlew"
+  - GRADLE_BUILD_FILE_PATH: build.gradle
   - DOCKER_HOME: "/root"
   - DOCKERHUB_IMG_ID: sakebook/docker-android-alpine:25.0.3_3
 trigger_map:
