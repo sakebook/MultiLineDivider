@@ -32,7 +32,7 @@ warn("A pull request must have some assignees") if github.pr_json["assignee"].ni
 ####
 android_lint.gradle_task = ":multilinedivider:lint"
 android_lint.report_file = "multilinedivider/build/reports/lint-results.xml"
-android_lint.filtering = true
-# Only GtiHub
-# android_lint.lint(inline_mode: true)
+# android_lint.filtering = true
+# Only GitHub
+android_lint.lint(inline_mode: true)
 android_lint.lint

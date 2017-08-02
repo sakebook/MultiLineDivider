@@ -7,8 +7,7 @@ workflows:
     steps:
     - activate-ssh-key@3.1.1:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@3.5.0: {}
-    - cache-pull@1.0.0: {}
+    - git-clone@3.5.1: {}
     - script@1.1.4:
         title: run test use docker
         inputs:
@@ -24,28 +23,47 @@ workflows:
               -e BITRISE_PULL_REQUEST=$BITRISE_PULL_REQUEST \
               $DOCKERHUB_IMG_ID bash -c \
                 "
-                bundle install
-                bundle exec danger
+                # bundle install
+                # bundle exec danger
                 ./gradlew :multilinedivider:testDebug -PdisablePreDex
                 "
-    - cache-push@1.1.3:
-        inputs:
-        - cache_paths: |-
-            $BITRISE_SOURCE_DIR/.gradle
-            $BITRISE_SOURCE_DIR/.m2
-            $HOME/.gradle
-        - ignore_check_on_paths: |-
-            $HOME/.gradle/caches/*.lock
-            $HOME/.gradle/*.bin
-            $BITRISE_SOURCE_DIR/.gradle/*.lock
-            $BITRISE_SOURCE_DIR./.gradle/*.bin
     before_run:
     - docker-build
+    after_run:
+    - cache-push
+  run-test-docker-use-cache:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@3.5.1: {}
+    - script@1.1.4:
+        title: run test use docker
+        inputs:
+        - content: |-
+            rm -rf local.properties
+
+            docker run --rm \
+              -v $BITRISE_SOURCE_DIR:$DOCKER_HOME \
+              -w $DOCKER_HOME \
+              -e GRADLE_USER_HOME=$DOCKER_HOME/.gradle \
+              -e BITRISE_IO=true \
+              -e GIT_REPOSITORY_URL=$GIT_REPOSITORY_URL \
+              -e BITRISE_PULL_REQUEST=$BITRISE_PULL_REQUEST \
+              $DOCKERHUB_IMG_ID bash -c \
+                "
+                # bundle install
+                # bundle exec danger
+                ./gradlew :multilinedivider:testDebug -PdisablePreDex
+                "
+    before_run:
+    - docker-build-with-cache
+    after_run:
+    - cache-push-with-docker
   run-test:
     steps:
     - activate-ssh-key@3.1.1:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@3.5.0: {}
+    - git-clone@3.5.1: {}
     - cache-pull@1.0.0: {}
     - script@1.1.4:
         title: run danger
@@ -57,20 +75,99 @@ workflows:
         inputs:
         - unit_test_task: ":multilinedivider:testDebug -PdisablePreDex"
     - cache-push@1.1.3: {}
+  local-run-test-docker:
+    steps:
+    - script@1.1.4:
+        title: local run test use docker
+        inputs:
+        - content: |-
+            rm -rf local.properties
+
+            docker run --rm \
+              -v $BITRISE_SOURCE_DIR:$DOCKER_HOME \
+              -w $DOCKER_HOME \
+              -e GRADLE_USER_HOME=$DOCKER_HOME/.gradle \
+              -e BITRISE_IO=true \
+              -e GIT_REPOSITORY_URL=$GIT_REPOSITORY_URL \
+              -e BITRISE_PULL_REQUEST=$BITRISE_PULL_REQUEST \
+              -e DANGER_GITHUB_API_TOKEN=$DANGER_GITHUB_API_TOKEN \
+              $DOCKERHUB_IMG_ID bash -c \
+                "
+                bundle install
+                bundle exec danger local
+                ./gradlew :multilinedivider:testDebug -PdisablePreDex
+                "
+    before_run:
+    - docker-build
+    envs:
+    - BITRISE_PULL_REQUEST: 18
+    - GIT_REPOSITORY_URL: git@github.com:sakebook/MultiLineDivider.git
+  docker-build-with-cache:
+    steps:
+    - cache-pull@1.0.0: {}
+    - script@1.1.4:
+        title: docker login or pull use cache
+        inputs:
+        - content: |-
+            if [ -e $BITRISE_CACHE_DIR/$DOCKER_CACHE_IMG ]; then
+                echo "Exist cache"
+                docker load < $BITRISE_CACHE_DIR/$DOCKER_CACHE_IMG
+            else
+                echo "Cache is not found"
+                docker login -u $USERNAME -p $PASSWORD
+                docker pull $DOCKERHUB_IMG_ID
   docker-build:
     steps:
+    - cache-pull@1.0.0: {}
     - script@1.1.4:
         title: docker login & pull
         inputs:
         - content: |-
             docker login -u $USERNAME -p $PASSWORD
             docker pull $DOCKERHUB_IMG_ID
+  cache-push:
+    steps:
+    - cache-push@1.1.3:
+        inputs:
+        - cache_paths: |-
+            $BITRISE_SOURCE_DIR/.gradle
+            $BITRISE_SOURCE_DIR/.m2
+            $HOME/.gradle
+        - ignore_check_on_paths: |-
+            $HOME/.gradle/caches/*.lock
+            $HOME/.gradle/*.bin
+            $BITRISE_SOURCE_DIR/.gradle/*.lock
+            $BITRISE_SOURCE_DIR./.gradle/*.bin
+  cache-push-with-docker:
+    steps:
+    - script@1.1.4:
+        title: docker image save
+        inputs:
+        - content: |-
+            docker save $DOCKERHUB_IMG_ID > $BITRISE_CACHE_DIR/$DOCKER_CACHE_IMG
+    - cache-push@1.1.3:
+        inputs:
+        - cache_paths: |-
+            $BITRISE_SOURCE_DIR/.gradle
+            $BITRISE_SOURCE_DIR/.m2
+            $BITRISE_CACHE_DIR
+            $HOME/.gradle
+        - ignore_check_on_paths: |-
+            $HOME/.gradle/caches/*.lock
+            $HOME/.gradle/*.bin
+            $BITRISE_SOURCE_DIR/.gradle/*.lock
+            $BITRISE_SOURCE_DIR./.gradle/*.bin
 app:
   envs:
   - GRADLEW_PATH: "./gradlew"
   - GRADLE_BUILD_FILE_PATH: build.gradle
   - DOCKER_HOME: "/root"
-  - DOCKERHUB_IMG_ID: sakebook/docker-android-alpine:25.0.3_3
+  - DOCKER_IMG_NAME: docker-android-alpine
+  - DOCKER_IMG_TAG: 25.0.3_3
+  - DOCKERHUB_IMG_ID: sakebook/$DOCKER_IMG_NAME:$DOCKER_IMG_TAG
+  - DOCKER_CACHE_IMG: $DOCKER_IMG_NAME-$DOCKER_IMG_TAG.tar
 trigger_map:
+- push_branch: "*"
+  workflow: run-test
 - pull_request_source_branch: "*"
   workflow: run-test-docker
