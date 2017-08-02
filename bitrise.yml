@@ -116,6 +116,7 @@ workflows:
                 echo "Cache is not found"
                 docker login -u $USERNAME -p $PASSWORD
                 docker pull $DOCKERHUB_IMG_ID
+            fi
   docker-build:
     steps:
     - cache-pull@1.0.0: {}
@@ -168,6 +169,6 @@ app:
   - DOCKER_CACHE_IMG: $DOCKER_IMG_NAME-$DOCKER_IMG_TAG.tar
 trigger_map:
 - push_branch: "*"
-  workflow: run-test
+  workflow: run-test-docker-use-cache
 - pull_request_source_branch: "*"
-  workflow: run-test-docker
+  workflow: run-test
