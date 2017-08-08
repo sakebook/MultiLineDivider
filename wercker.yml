@@ -2,10 +2,17 @@ box:
   id: sakebook/docker-android-alpine
   username: $USERNAME
   password: $PASSWORD
-  tag: 25.0.3_1
+  tag: 25.0.3_3
 build:
   steps:
     - script:
       name: unit test
       code: |
         ./gradlew clean :multilinedivider:testDebugUnitTest
+lint:
+  steps:
+    - script:
+      name: lint
+      code: |
+        bundle install
+        bundle exec danger
