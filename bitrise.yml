@@ -169,8 +169,10 @@ app:
   - DOCKER_IMG_TAG: 25.0.3_3
   - DOCKERHUB_IMG_ID: sakebook/$DOCKER_IMG_NAME:$DOCKER_IMG_TAG
   - DOCKER_CACHE_IMG: $DOCKER_IMG_NAME-$DOCKER_IMG_TAG.tar
+  # for local bitrise cli
+  - BITRISE_CACHE_DIR: $BITRISE_SOURCE_DIR
 trigger_map:
 - push_branch: "*"
-  workflow: run-test-docker-use-cache
+  workflow: run-test-docker
 - pull_request_source_branch: "*"
   workflow: run-test
